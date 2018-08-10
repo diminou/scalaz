@@ -165,6 +165,9 @@ object IListModule {
     def append(that: IList[A]): IList[A] =
       self.foldRight(that)(_ :: _)
 
+    def prepend(that: IList[A]): IList[A] =
+      that.append(self)
+
     def :::(that: IList[A]): IList[A] =
       that.append(self)
 
