@@ -29,12 +29,22 @@ final class IListTests {
       (append(IList(1, 2, 3), IList.empty), IList(1, 2, 3)),
     ).foldMap(assertEqualTupled)
 
+  def testPrepend(prepend: (IList[Int], IList[Int]) => IList[Int]): Result =
+    List(
+      (prepend(IList(4, 5, 6), IList(1, 2, 3)), IList(1, 2, 3, 4, 5, 6)),
+      (prepend(IList.empty, IList(4, 5, 6)), IList(4, 5, 6)),
+      (prepend(IList(1, 2, 3), IList.empty), IList(1, 2, 3)),
+      ).foldMap(assertEqualTupled)
+
   def tests[T](harness: Harness[T], sequence: (T, T) => T): T = {
     import harness._
     sequence(
       section("concrete")(
         test("append") { () =>
           testAppend(_.append(_))
+        },
+        test("prepend") { () =>
+          testPrepend(_.prepend(_))
         },
         test("++") { () =>
           testAppend(_ ++ _)
